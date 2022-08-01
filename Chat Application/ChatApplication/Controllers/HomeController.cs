@@ -7,6 +7,7 @@ using RabbitMQ.Util;
 using System.Web.Mvc;
 using ChatApplication.Models.HelperBll;
 using System.Web.UI.WebControls;
+using System.Globalization;
 
 namespace ChatApplication.Controllers
 {
@@ -124,14 +125,25 @@ namespace ChatApplication.Controllers
 
         public JsonResult userslist()
         {
+            List<ListItem> userlist = new List<ListItem>();
             int id = 0;
+
+            // Check office hours and then assign agent
+            var currTime = DateTime.Now.TimeOfDay;
+            var startTime = DateTime.ParseExact("08:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
+            var endTime = DateTime.ParseExact("22:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
+            if (currTime < startTime || currTime > endTime)
+            {
+                return Json(null);
+            }
+
             if (Session["userid"] != null)
             {
                 id = Convert.ToInt32(Session["userid"].ToString());
             }
-            //List<UserModel> users = dl.getusers(id);
+
             List<UserModel> users = dl.getagent(id);
-            List<ListItem> userlist = new List<ListItem>();
+
             foreach (var item in users)
             {
                 userlist.Add(new ListItem
