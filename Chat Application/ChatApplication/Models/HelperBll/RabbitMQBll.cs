@@ -40,12 +40,9 @@ namespace ChatApplication.Models.HelperBll
                 
             }
             catch (Exception)
-            {
-
-                
+            {                
             }
             return true;
-
         }
         public string receive(IConnection con,string myqueue)
         {
@@ -63,10 +60,8 @@ namespace ChatApplication.Models.HelperBll
             }
             catch (Exception)
             {
-                return null;
-                
-            }
-           
+                return null;                
+            }           
         }
     }
 
