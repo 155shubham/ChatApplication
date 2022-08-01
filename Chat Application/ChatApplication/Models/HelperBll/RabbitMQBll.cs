@@ -14,8 +14,8 @@ namespace ChatApplication.Models.HelperBll
         public IConnection GetConnection()
         {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.UserName = "test";
-            factory.Password = "test";
+            factory.UserName = "guest";
+            factory.Password = "guest";
             factory.Port = 5672;
             //factory.Port = AmqpTcpEndpoint.UseDefaultPort; ;
             factory.HostName = "localhost";
