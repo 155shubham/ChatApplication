@@ -18,6 +18,11 @@ namespace ChatApplication.Models.HelperBll
         public string confirmpassword { get; set; }
        
         public string dob { get; set; }
+
         public bool IsEmployee { get; set; }
+
+        public DateTime LoginTime { get; set; }
+
+        public bool FreeOrBusy { get; set; }
     }
 }

@@ -27,7 +27,7 @@
             });
 
             $("#btnstop").click(function () {
-                stop();
+                stop("@Session["UserType"].ToString()");
             });
 
             getUsersList();
@@ -40,14 +40,33 @@
                     data: '{}',
                     dataType: "json",
                     success: function (r) {
-                        $("#divmsg").html("Connected <br>");
                         var txtboxUser = $("#txtBoxUser");
                         var ddlUser = $("#ddlUser");
-                        // ddlfrined.empty().append('<option selected="selected" value="0">select</option>');
-                        for (var i = 0; i <r.length; i++) {
-                            //txtboxUser.append($("<option></option>").val(r[i].Value).html(r[i].Text));
-                            //$("#txtboxUser").val(r[i].Text);
-                            txtboxUser.val(r[i].Text);
+
+                        if (r[0].Value == "Out of Office hours.") {
+                            $("#divmsg").html("<p style='color:red'> Disconnected <br> Do Page Refresh Page or connect again in office hours to start chat.</p>");
+                            txtboxUser.val(r[0].Text);
+                            $("#btnsend").hide();
+                            $("#btnstop").hide();
+                        }
+                        else {
+                            $("#divmsg").html("<p style='color:black'> Connected Now. Start chatting<br></p>");
+                            // ddlUser.empty().append('<option selected="selected" value="0">select</option>');
+                            for (var i = 0; i < r.length; i++) {
+                                if ("@Session["UserType"].ToString()" == "Agent") {
+                                    txtboxUser.val("");
+                                    txtboxUser.hide();
+                                    ddlUser.show();
+                                    ddlUser.append($("<option></option>").val(r[i].Value).html(r[i].Text));
+                                }
+                                if ("@Session["UserType"].ToString()" == "Customer") {
+                                    ddlUser.empty().append('<option selected="selected" value="0">select</option>');
+                                    ddlUser.hide();
+                                    txtboxUser.show();
+                                    txtboxUser.val(r[i].Text);
+                                }                                
+                                //$("#txtboxUser").val(r[i].Text);
+                            }
                         }
                     },
                     error: function (r) {
@@ -93,11 +112,12 @@
                 });
             }
 
-        function stop() {
+            function stop(userType) {
                 $.ajax({
-                        type: "GET",
+                        type: "POST",
                         url: "@Url.Action("logout")",
-                    success: function () {
+                        data: '{ "userType:"' + userType + '"}',
+                        success: function () {
                             location.reload();
                         },
                         error: function (r) {
@@ -125,16 +145,17 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        @if (@Session["UserType"].ToString() == "Agent")
-                        {
-                            <label> Customer Assigned : </label>
-                        }
                         @if (@Session["UserType"].ToString() == "Customer")
                         {
                             <label> Agent Assigned : </label>
+                            <input id="txtBoxUser" name="txtBoxUser" class="form-control" />
                         }
-
-                        <input id="txtBoxUser" name="txtBoxUser" class="form-control" />
+                        @if (@Session["UserType"].ToString() == "Agent")
+                        {
+                            <label> Customer Assigned : </label>
+                            <select id="ddlUser" name="ddlUser" class="form-control">
+                            </select>
+                        }
                     </div>
                     <div class="form-group">
                         <label> Enter your message here : </label>

@@ -14,6 +14,13 @@ namespace ChatApplication.Controllers
     public class HomeController : Controller
     {
         DataLayer dl = new DataLayer();
+        RabbitMQBll obj = new RabbitMQBll();
+        IConnection con;
+
+        public HomeController()
+        {
+            con = obj.GetConnection();
+        }
         // GET: Home
         public ActionResult Index()
         {
@@ -30,8 +37,8 @@ namespace ChatApplication.Controllers
         [HttpPost]
         public JsonResult sendmsg(string message,string user)
         {
-            RabbitMQBll obj = new RabbitMQBll();
-            IConnection con = obj.GetConnection();
+            //RabbitMQBll obj = new RabbitMQBll();
+            //IConnection con = obj.GetConnection();
             bool flag = obj.send(con, message, user);
             return Json(null);
         }
@@ -41,8 +48,8 @@ namespace ChatApplication.Controllers
         {
             try
             {
-                RabbitMQBll obj = new RabbitMQBll();
-                IConnection con = obj.GetConnection();
+                //RabbitMQBll obj = new RabbitMQBll();
+                //IConnection con = obj.GetConnection();
                 if(Session["username"] != null)
                 {
                     string userqueue = Session["username"].ToString();
@@ -96,11 +103,20 @@ namespace ChatApplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult logout()
+        public ActionResult logout(string userType)
         {
-            Session["username"] = null;
-            Session["userid"] = null;
-            Session.Abandon();
+            if(userType == "Customer")
+            {
+                Session["username"] = null;
+                Session["userid"] = null;
+                Session.Abandon();
+            }
+            if(userType == "Agent")
+            {
+                Session["username"] = null;
+                Session["userid"] = null;
+                Session.Abandon();
+            }
             return RedirectToAction("login", "home");
         }
 
@@ -132,17 +148,23 @@ namespace ChatApplication.Controllers
             var currTime = DateTime.Now.TimeOfDay;
             var startTime = DateTime.ParseExact("08:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
             var endTime = DateTime.ParseExact("22:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
-            if (currTime < startTime || currTime > endTime)
-            {
-                return Json(null);
-            }
+            //if (currTime < startTime || currTime > endTime)
+            //{
+            //    userlist.Add(new ListItem
+            //    {
+            //        Value = "Out of Office hours.",
+            //        Text = "No one is available in non office hours."
+
+            //    });
+            //    return Json(userlist);
+            //}
 
             if (Session["userid"] != null)
             {
                 id = Convert.ToInt32(Session["userid"].ToString());
             }
 
-            List<UserModel> users = dl.getagent(id);
+            List<UserModel> users = dl.getSupportOrCustomerDetails(id);
 
             foreach (var item in users)
             {
