@@ -25,6 +25,7 @@ namespace ChatApplication.Controllers
                 return View();
             }
         }
+
         [HttpPost]
         public JsonResult sendmsg(string message,string user)
         {
@@ -33,6 +34,7 @@ namespace ChatApplication.Controllers
             bool flag = obj.send(con, message, user);
             return Json(null);
         }
+
         [HttpPost]
         public JsonResult receive()
         {
@@ -53,10 +55,9 @@ namespace ChatApplication.Controllers
             {
 
                 return null;
-            }
-
-           
+            }           
         }
+
         public ActionResult login()
         {
             return View();

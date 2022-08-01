@@ -95,24 +95,15 @@
                 });
             }
 
-        function stop() {
-                location.reload();
+        function stop() {                
                 $.ajax({
                         type: "GET",
                         url: "@Url.Action("logout")",
                         //contentType: "application/json; charset=utf-8",
                         //data: '{}',
                         //dataType: "json",
-                        success: function () {
-                            //$("#divmsg").html("Connected");
-                            //var txtboxUser = $("#txtBoxUser");
-                            //var ddlUser = $("#ddlUser");
-                            //// ddlfrined.empty().append('<option selected="selected" value="0">select</option>');
-                            //for (var i = 0; i <r.length; i++) {
-                            //    //txtboxUser.append($("<option></option>").val(r[i].Value).html(r[i].Text));
-                            //    //$("#txtboxUser").val(r[i].Text);
-                            //    txtboxUser.val(r[i].Text);
-                            //}
+                    success: function () {
+                            location.reload();
                         },
                         error: function (r) {
                             alert("error");
