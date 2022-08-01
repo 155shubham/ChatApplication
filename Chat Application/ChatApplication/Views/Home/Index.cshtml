@@ -71,7 +71,7 @@
 
                     }
                 });
-            }, 5000);
+            }, 3000);
             function send() {
                 var message = $("#txtmsg").val();
                 var user = $("#txtBoxUser").val();
@@ -99,9 +99,6 @@
                 $.ajax({
                         type: "GET",
                         url: "@Url.Action("logout")",
-                        //contentType: "application/json; charset=utf-8",
-                        //data: '{}',
-                        //dataType: "json",
                     success: function () {
                             location.reload();
                         },
