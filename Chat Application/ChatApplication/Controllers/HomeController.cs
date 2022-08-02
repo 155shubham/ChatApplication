@@ -116,16 +116,16 @@ namespace ChatApplication.Controllers
             var currTime = DateTime.Now.TimeOfDay;
             var startTime = DateTime.ParseExact("08:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
             var endTime = DateTime.ParseExact("22:00:00", "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
-            //if (currTime < startTime || currTime > endTime)
-            //{
-            //    userlist.Add(new ListItem
-            //    {
-            //        Value = "Out of Office hours.",
-            //        Text = "No one is available in non office hours."
+            if (currTime < startTime || currTime > endTime)
+            {
+                userlist.Add(new ListItem
+                {
+                    Value = "Out of Office hours.",
+                    Text = "No one is available in non office hours."
 
-            //    });
-            //    return Json(userlist);
-            //}
+                });
+                return Json(userlist);
+            }
 
             if (Session["userid"] != null)
             {
