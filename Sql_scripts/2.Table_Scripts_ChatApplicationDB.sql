@@ -32,7 +32,7 @@ CREATE TABLE dbo.SupportAndCustomerMapping
 	
 	SACId		INT	IDENTITY(1,1) PRIMARY KEY,
 	supportId	INT	NULL,
-	customerId	INT	NOT NULL,
+	customerId	INT	NULL,
 	FOREIGN KEY(supportId) REFERENCES dbo.UserInfo(userId),
 	FOREIGN KEY(customerId) REFERENCES dbo.UserInfo(userId)
 )
