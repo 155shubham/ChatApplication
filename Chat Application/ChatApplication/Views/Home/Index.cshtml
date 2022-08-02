@@ -90,7 +90,7 @@
                         var sender = response.split('#')[0];
                         var responseMsg = response.split('#')[1];
                         var data = $("#divmsg").html();
-                        $("#divmsg").html(data + "<br><b>" + sender +  " > Me: </b>" + responseMsg);
+                        $("#divmsg").html(data + "<br><b>" + sender +  " TO me: </b>" + responseMsg);
                     },
                     error: function (response) {
                     }
@@ -107,7 +107,7 @@
                     recipient = $("#txtBoxUser").val();
                 }
                 var data = $("#divmsg").html();
-                $("#divmsg").html(data + "<br>" + "<b> Me > " + recipient.split('@@')[0] + " : </b>" + message);
+                $("#divmsg").html(data + "<br>" + "<b> me TO " + recipient.split('@@')[0] + " : </b>" + message);
                 $("#txtmsg").val("");
                 //debugger;
                 $.ajax({
