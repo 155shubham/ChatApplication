@@ -110,81 +110,86 @@ VALUES
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(20, 'juniorsupport1@cc.com', '111122230', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamA');
+	(20, 'juniorsupport1@cc.com', '111122230', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamA');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(21, 'juniorsupport2@cc.com', '111122231', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamB');
+	(21, 'juniorsupport2@cc.com', '111122231', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamB');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(22, 'juniorsupport3@cc.com', '111122231', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamB');
+	(22, 'juniorsupport3@cc.com', '111122231', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamB');
 
 -- Mid Levels
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(24, 'midlevelsupport1@cc.com', '111122230', 'test', GETDATE(), 'MidLevel', 1, NULL, 0, 'TeamA');
+	(24, 'midlevelsupport1@cc.com', '111122230', 'test', GETDATE(), 'MidLevel', 1, NULL, 1, 'TeamA');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(25, 'midlevelsupport2@cc.com', '111122230', 'test', GETDATE(), 'Midlevel', 1, NULL, 0, 'TeamA');
+	(25, 'midlevelsupport2@cc.com', '111122230', 'test', GETDATE(), 'Midlevel', 1, NULL, 1, 'TeamA');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(26, 'midlevelsupport3@cc.com', '111122231', 'test', GETDATE(), 'Midlevel', 1, NULL, 0, 'TeamB');
+	(26, 'midlevelsupport3@cc.com', '111122231', 'test', GETDATE(), 'Midlevel', 1, NULL, 1, 'TeamB');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(27, 'midlevelsupport4@cc.com', '111122232', 'test', GETDATE(), 'Midlevel', 1, NULL, 0, 'TeamC');
+	(27, 'midlevelsupport4@cc.com', '111122232', 'test', GETDATE(), 'Midlevel', 1, NULL, 1, 'TeamC');
 
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(28, 'midlevelsupport5@cc.com', '111122232', 'test', GETDATE(), 'Midlevel', 1, NULL, 0, 'TeamC');
+	(28, 'midlevelsupport5@cc.com', '111122232', 'test', GETDATE(), 'Midlevel', 1, NULL, 1, 'TeamC');
 
 -- Senior
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(29, 'seniorsupport1@cc.com', '111122231', 'test', GETDATE(), 'Senior', 1, NULL, 0, 'TeamB');
+	(29, 'seniorsupport1@cc.com', '111122231', 'test', GETDATE(), 'Senior', 1, NULL, 1, 'TeamB');
 
 -- Team Lead
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(31, 'teamleadsupport1@cc.com', '111122230', 'test', GETDATE(), 'TeamLead', 1, NULL, 0, 'TeamA');
+	(31, 'teamleadsupport1@cc.com', '111122230', 'test', GETDATE(), 'TeamLead', 1, NULL, 1, 'TeamA');
 
 -- Team Overflow
 INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(33, 'juniorsupport4@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
-	INSERT INTO dbo.UserInfo
+	(33, 'juniorsupport4@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
+
+INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(34, 'juniorsupport5@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
-	INSERT INTO dbo.UserInfo
+	(34, 'juniorsupport5@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
+
+INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(35, 'juniorsupport6@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
-	INSERT INTO dbo.UserInfo
+	(35, 'juniorsupport6@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
+
+INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(36, 'juniorsupport7@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
-	INSERT INTO dbo.UserInfo
+	(36, 'juniorsupport7@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
+
+INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(37, 'juniorsupport8@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
-	INSERT INTO dbo.UserInfo
+	(37, 'juniorsupport8@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
+
+INSERT INTO dbo.UserInfo
 	(userId, email, mobile, [password], dob, [role], IsEmployee, LoginTime, FreeOrBusy, TeamName)
 VALUES
-	(38, 'juniorsupport9@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 0, 'TeamOverflow');
+	(38, 'juniorsupport9@cc.com', '111122233', 'test', GETDATE(), 'Junior', 1, NULL, 1, 'TeamOverflow');
 
 --INSERT INTO dbo.SupportAndCustomerMapping
 --	(supportId,customerId)
