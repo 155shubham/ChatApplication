@@ -15,11 +15,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
             if ("@Session["UserType"].ToString()" == "Agent") {
-                $("#txtBoxUser").val("Wait for few sec.Customer will be assigned soon...");
+                $("#ddlUser").val("Wait for few sec.Customer will be assigned soon...");
             }
-            else {
+            else if ("@Session["UserType"].ToString()" == "Customer") {
                 $("#txtBoxUser").val("Wait for few sec.Agent will be assigned soon...");
             }
+
             $("#divmsg").val("Connecting...");
 
             $("#btnsend").click(function () {
@@ -27,7 +28,7 @@
             });
 
             $("#btnstop").click(function () {
-                stop("@Session["UserType"].ToString()");
+                stop();
             });
 
             getUsersList();
@@ -40,32 +41,36 @@
                     data: '{}',
                     dataType: "json",
                     success: function (r) {
-                        var txtboxUser = $("#txtBoxUser");
-                        var ddlUser = $("#ddlUser");
+                        var ddlUser;
+                        var txtboxUser;
+                        if ("@Session["UserType"].ToString()" == "Agent") {
+                            ddlUser = $("#ddlUser");
+                        }
+                        else if ("@Session["UserType"].ToString()" == "Customer") {
+                            txtboxUser = $("#txtBoxUser");
+                            $("#txtBoxUser").val('');
+                        }
 
                         if (r[0].Value == "Out of Office hours.") {
                             $("#divmsg").html("<p style='color:red'> Disconnected <br> Do Page Refresh Page or connect again in office hours to start chat.</p>");
-                            txtboxUser.val(r[0].Text);
+                            if ("@Session["UserType"].ToString()" == "Agent") {
+                                ddlUser.append($("<option></option>").val(r[i].Value).html(r[i].Text));
+                            }
+                            else if ("@Session["UserType"].ToString()" == "Customer") {
+                                txtboxUser.val(r[0].Text);
+                            }
                             $("#btnsend").hide();
                             $("#btnstop").hide();
                         }
                         else {
                             $("#divmsg").html("<p style='color:black'> Connected Now. Start chatting<br></p>");
-                            // ddlUser.empty().append('<option selected="selected" value="0">select</option>');
                             for (var i = 0; i < r.length; i++) {
                                 if ("@Session["UserType"].ToString()" == "Agent") {
-                                    txtboxUser.val("");
-                                    txtboxUser.hide();
-                                    ddlUser.show();
                                     ddlUser.append($("<option></option>").val(r[i].Value).html(r[i].Text));
                                 }
-                                if ("@Session["UserType"].ToString()" == "Customer") {
-                                    ddlUser.empty().append('<option selected="selected" value="0">select</option>');
-                                    ddlUser.hide();
-                                    txtboxUser.show();
+                                else if ("@Session["UserType"].ToString()" == "Customer") {
                                     txtboxUser.val(r[i].Text);
-                                }                                
-                                //$("#txtboxUser").val(r[i].Text);
+                                }
                             }
                         }
                     },
@@ -82,9 +87,10 @@
                     url: "@Url.Action("receive")",
                     dataType: "json",
                     success: function (response) {
+                        var sender = response.split('#')[0];
+                        var responseMsg = response.split('#')[1];
                         var data = $("#divmsg").html();
-                        var displayUser = ($("#txtBoxUser").val()).split("@@");
-                        $("#divmsg").html(data + "<br><b>" + displayUser[0].toUpperCase() + ": </b>" + response);
+                        $("#divmsg").html(data + "<br><b>" + sender +  " > Me: </b>" + responseMsg);
                     },
                     error: function (response) {
                     }
@@ -92,33 +98,41 @@
             }, 3000);
             function send() {
                 var message = $("#txtmsg").val();
-                var user = $("#txtBoxUser").val();
+                var sender = "@Session["username"].ToString()";
+                var recipient;
+                if ("@Session["UserType"].ToString()" == "Agent") {
+                    recipient = $("#ddlUser").val();
+                }
+                else if ("@Session["UserType"].ToString()" == "Customer") {
+                    recipient = $("#txtBoxUser").val();
+                }
                 var data = $("#divmsg").html();
-                $("#divmsg").html(data + "<br>" + "<b> Me : </b>" + message);
+                $("#divmsg").html(data + "<br>" + "<b> Me > " + recipient.split('@@')[0] + " : </b>" + message);
                 $("#txtmsg").val("");
                 //debugger;
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    data: '{"message":"' + message + '","user":"' + user +'"}',
+                    data: '{"message":"' + sender.split('@@')[0] + '#' + message + '","user":"' + recipient +'"}',
                     url: "@Url.Action("sendmsg")",
                     dataType: "json",
                     success: function (response) {
                         var data = $("#divmsg").html();
-                        $("#divmsg").html(data + "<br>" + user + ": " + message);
+                        $("#divmsg").html(data + "<br>" + recipient + ": " + message);
                     },
                     error: function (response) {
                     }
                 });
             }
 
-            function stop(userType) {
+            function stop() {
                 $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("logout")",
-                        data: '{ "userType:"' + userType + '"}',
+                        type: "GET",
+                        url: "@Url.Action("Logoff")",
                         success: function () {
-                            location.reload();
+                            if ("@Session["UserType"].ToString()" == "Customer") {
+                                location.reload();
+                            }
                         },
                         error: function (r) {
                             alert("error");
@@ -165,7 +179,7 @@
                         <input type="button" value="send" class="btn btn-success" name="btnsend" id="btnsend" />
                     </div>
                     <div class="form-group">
-                        <input type="button" value="stop" class="btn btn-success" name="btnstop" id="btnstop" />
+                        <input type="button" value="Logoff" class="btn btn-success" name="btnstop" id="btnstop" />
                     </div>
                 </div>
                 <div class="col-md-6">
