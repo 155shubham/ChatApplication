@@ -101,18 +101,10 @@ namespace ChatApplication.Controllers
             var email = Session["username"].ToString();
             var userId = Convert.ToInt32(Session["userid"]);
             var success = dl.Logoff(email, userId);
-            if (success > 0 && Session["UserType"].ToString() == "Customer")
-            {
-                Session["username"] = null;
-                Session["userid"] = null;
-                Session.Abandon();
-                return RedirectToAction("login", "home");
-            } 
-            else
-            {
-                return null;
-            }
-            
+            Session["username"] = null;
+            Session["userid"] = null;
+            Session.Abandon();
+            return RedirectToAction("login", "home");            
         }
 
         public JsonResult userslist()
@@ -150,6 +142,16 @@ namespace ChatApplication.Controllers
                     Text = item.email.ToString()
 
                 });
+            }
+            if(userlist.Count == 0)
+            {
+                userlist.Add(new ListItem
+                {
+                    Value = "No User Available. Try Refresh.",
+                    Text = "No User Available. Try Refresh"
+
+                });
+
             }
             return Json(userlist);
         }
