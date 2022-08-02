@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Npgsql;
 using System.Configuration;
 using System.Data;
 using ChatApplication.Models.HelperBll;
