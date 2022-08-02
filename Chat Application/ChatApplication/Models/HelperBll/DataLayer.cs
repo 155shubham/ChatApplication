@@ -15,32 +15,8 @@ namespace ChatApplication.Models.HelperBll
         SqlConnection con = new SqlConnection();
         public DataLayer()
         {
-            //con.ConnectionString = ConfigurationManager.ConnectionStrings
             con.ConnectionString = ConfigurationManager.ConnectionStrings["mycon"].ConnectionString;
-        }
-        //public UserModel login(string email,string password)
-        //{
-        //    UserModel user = new UserModel();
-        //    DataTable dt = new DataTable();
-        //    DataSet ds = new DataSet();
-        //    string sql = "select * from UserInfo where email='" + email + "' and password='" + password + "'";
-        //    SqlDataAdapter da = new SqlDataAdapter(sql, con);
-        //    ds.Reset();
-        //    da.Fill(ds);
-        //    dt = ds.Tables[0];
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        user.userid = Convert.ToInt32(row["userid"].ToString());
-        //        user.email = row["email"].ToString();
-        //        user.mobile = row["mobile"].ToString();
-        //        user.password = row["password"].ToString();
-        //        if (row["isemployee"].Equals(true))
-        //            user.IsEmployee = true;
-        //        else
-        //            user.IsEmployee = false;
-        //    }
-        //    return user;
-        //}
+        }       
 
         public UserModel login(string email, string password)
         {
@@ -83,12 +59,13 @@ namespace ChatApplication.Models.HelperBll
             return user;
         }
 
-        public UserModel logout(string email, int userId)
+        public int Logoff(string email, int userId)
         {
             UserModel user = new UserModel();
+            int success = 0;
             try
             {
-                string sql = "usp_UpdateLogoutTime";
+                string sql = "usp_UpdateLoginTimeOnLogoff";
                 SqlCommand cmd = new SqlCommand(sql, con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -101,17 +78,7 @@ namespace ChatApplication.Models.HelperBll
                 userId_param.Value = userId;
 
                 con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    user.userid = Convert.ToInt32(rdr["userid"].ToString());
-                    user.email = rdr["email"].ToString();
-                    user.mobile = rdr["mobile"].ToString();
-                    if (rdr["isemployee"].Equals(true))
-                        user.IsEmployee = true;
-                    else
-                        user.IsEmployee = false;
-                }
+                success = cmd.ExecuteNonQuery();
             }
             catch(Exception ex)
             {
@@ -121,54 +88,8 @@ namespace ChatApplication.Models.HelperBll
             {
                 con.Close();
             }            
-            return user;
-        }
-
-        //public List<UserModel> getusers(int id)
-        //{
-        //    DataTable dt = new DataTable();
-        //    DataSet ds = new DataSet();
-        //    List<UserModel> userlist = new List<UserModel>();
-        //    string sql = "select * from UserInfo where userid = "+id;
-        //    SqlDataAdapter da = new SqlDataAdapter(sql, con);
-        //    ds.Reset();
-        //    da.Fill(ds);
-        //    dt = ds.Tables[0];
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        UserModel user = new UserModel();
-        //        user.userid = Convert.ToInt32(row["userid"].ToString());
-        //        user.email = row["email"].ToString();
-        //        user.mobile = row["mobile"].ToString();
-        //        user.password = row["password"].ToString();
-        //        user.dob = row["dob"].ToString();
-        //        userlist.Add(user);
-        //    }
-        //    return userlist;
-        //}
-
-        //public List<UserModel> getallusers()
-        //{
-        //    DataTable dt = new DataTable();
-        //    DataSet ds = new DataSet();
-        //    List<UserModel> userlist = new List<UserModel>();
-        //    string sql = "select * from UserInfo";
-        //    SqlDataAdapter da = new SqlDataAdapter(sql, con);
-        //    ds.Reset();
-        //    da.Fill(ds);
-        //    dt = ds.Tables[0];
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        UserModel user = new UserModel();
-        //        user.userid = Convert.ToInt32(row["userid"].ToString());
-        //        user.email = row["email"].ToString();
-        //        user.mobile = row["mobile"].ToString();
-        //        user.password = row["password"].ToString();
-        //        user.dob = row["dob"].ToString();
-        //        userlist.Add(user);
-        //    }
-        //    return userlist;
-        //}
+            return success;
+        }       
 
         public List<UserModel> getSupportOrCustomerDetails(int id)
         {
