@@ -14,13 +14,7 @@ namespace ChatApplication.Controllers
     public class HomeController : Controller
     {
         DataLayer dl = new DataLayer();
-        RabbitMQBll obj = new RabbitMQBll();
-        IConnection con;
 
-        public HomeController()
-        {
-            con = obj.GetConnection();
-        }
         // GET: Home
         public ActionResult Index()
         {
@@ -35,10 +29,10 @@ namespace ChatApplication.Controllers
         }
 
         [HttpPost]
-        public JsonResult sendmsg(string message,string user)
+        public JsonResult sendmsg(string message, string user)
         {
-            //RabbitMQBll obj = new RabbitMQBll();
-            //IConnection con = obj.GetConnection();
+            RabbitMQBll obj = new RabbitMQBll();
+            IConnection con = obj.GetConnection();
             bool flag = obj.send(con, message, user);
             return Json(null);
         }
@@ -48,9 +42,9 @@ namespace ChatApplication.Controllers
         {
             try
             {
-                //RabbitMQBll obj = new RabbitMQBll();
-                //IConnection con = obj.GetConnection();
-                if(Session["username"] != null)
+                RabbitMQBll obj = new RabbitMQBll();
+                IConnection con = obj.GetConnection();
+                if (Session["username"] != null)
                 {
                     string userqueue = Session["username"].ToString();
                     string message = obj.receive(con, userqueue);
@@ -61,7 +55,6 @@ namespace ChatApplication.Controllers
             }
             catch (Exception)
             {
-
                 return null;
             }           
         }
@@ -103,41 +96,24 @@ namespace ChatApplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult logout(string userType)
+        public ActionResult Logoff()
         {
-            if(userType == "Customer")
+            var email = Session["username"].ToString();
+            var userId = Convert.ToInt32(Session["userid"]);
+            var success = dl.Logoff(email, userId);
+            if (success > 0 && Session["UserType"].ToString() == "Customer")
             {
                 Session["username"] = null;
                 Session["userid"] = null;
                 Session.Abandon();
-            }
-            if(userType == "Agent")
+                return RedirectToAction("login", "home");
+            } 
+            else
             {
-                Session["username"] = null;
-                Session["userid"] = null;
-                Session.Abandon();
+                return null;
             }
-            return RedirectToAction("login", "home");
+            
         }
-
-        //[HttpPost]
-        //public JsonResult friendlist()
-        //{
-        //    int id = Convert.ToInt32(Session["userid"].ToString());
-        //    //List<UserModel> users = dl.getusers(id);
-        //    List<UserModel> users = dl.getallusers();
-        //    List<ListItem> userlist = new List<ListItem>();
-        //    foreach (var item in users)
-        //    {
-        //        userlist.Add(new ListItem
-        //        {
-        //            Value = item.email.ToString(),
-        //            Text = item.email.ToString()
-
-        //        });
-        //    }
-        //    return Json(userlist);
-        //}
 
         public JsonResult userslist()
         {
