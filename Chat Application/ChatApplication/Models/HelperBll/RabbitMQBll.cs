@@ -17,11 +17,8 @@ namespace ChatApplication.Models.HelperBll
             factory.UserName = "guest";
             factory.Password = "guest";
             factory.Port = 5672;
-            //factory.Port = AmqpTcpEndpoint.UseDefaultPort; ;
             factory.HostName = "localhost";
-            //factory.HostName = "192.168.0.12";
             factory.VirtualHost = "/";
-            //factory.Protocol = Protocols.DefaultProtocol;
             // factory.Uri = "http://192.168.7.140:15672/";
             return factory.CreateConnection();
         }
@@ -31,8 +28,6 @@ namespace ChatApplication.Models.HelperBll
             {
                 IModel channel = con.CreateModel();
                 channel.ExchangeDeclare("messageexchange", ExchangeType.Direct);
-                //Dictionary<string, object> args = new Dictionary<string, object>();
-                //args.Add("x-max-length", 10);
                 channel.QueueDeclare(userqueue, true, false, false, null);
                 channel.QueueBind(userqueue, "messageexchange", userqueue, null);
                 var msg = Encoding.UTF8.GetBytes(message);
